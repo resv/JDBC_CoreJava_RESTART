@@ -27,29 +27,22 @@ public class MainEntryClass {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
 
-		// TESTING QUERY FROM STUDENTS (ID) WORKS!
+	// TESTING QUERY FROM STUDENTS (ID) WORKS!
 		System.out.println("testing console");
 
-		// TESTING CONNECTION
-
+	// TESTING CONNECTION
 		Connection conn = OracleConnection.getConnection();
-
 		String sql = "SELECT * FROM STUDENT";
-
 		PreparedStatement ps = conn.prepareStatement(sql);
-
-//		ps.setInt(1, id);
-
 		ResultSet results = ps.executeQuery();
 
-		// 1 is the first column, change number for next column, this is because we
-		// queried for *
-		// GETTING RESULTS SETS ARE PERTAINING TO VIEWS, if views have more than one
-		// column then
-		// changing the 1 to another number will get that respective column
-		// if we change * to a specific column name we will get that returned, and the
-		// value 1 becomes
-		// views
+		/* 1 is the first column, change number for next column, this is because we
+		queried for *.GETTING RESULTS SETS ARE PERTAINING TO VIEWS, if views have more 
+		than one column then changing the 1 to another number will get that respective 
+		column if we change * to a specific column name we will get that returned, and the
+		value 1 becomes views*/
+//		ps.setInt(1, id);
+		
 		while (results.next()) {
 			System.out.println(results.getString(1));
 		}
@@ -57,10 +50,11 @@ public class MainEntryClass {
 /*UNCOMMENT METHODS BELOW TO TEST EACH METHOD, METHOD WILL RETURN MEMORY ADDRESS, YOU MUST RUN DEBUGGER AND 
   CONFIRM THAT THE VALUES ARE CORRECT IN EACH OBJECT/LIST BEING RETURNED*/
 		
-		//vgetStudentByGmail("b@gmail.com"); // tested and works with other student emails
-		//vvalidateUser("111", "111"); //false also works by changing the 2nd parameter to not match
-		//vgetAllInstructors(); //returns list array with all instructor objects
-		vgetInstructoByGmail("lance@gmail.com");
+//		vgetStudentByGmail("b@gmail.com"); // tested and works with other student emails
+//		vvalidateUser("111", "111"); //false also works by changing the 2nd parameter to not match
+//		vgetAllInstructors(); //returns list array with all instructor objects
+//		vgetInstructoByGmail("lance@gmail.com"); //returns instructor object based on email in param
+		
 
 	}
 
@@ -182,7 +176,7 @@ public class MainEntryClass {
 		return arr;
 	}
 
-//TESTING IF EMAIL PARAM RETURNS INSTRUCTOR OBJECT
+//TESTING IF EMAIL PARAM RETURNS INSTRUCTOR OBJECT AND WORKS!!!
 	private static Instructor vgetInstructoByGmail(String email) throws SQLException {
 		Connection conn = null;
 		Instructor instructor = null;
@@ -192,7 +186,7 @@ public class MainEntryClass {
 		try {
 			conn = OracleConnection.getConnection();
 			instructor = new Instructor();
-			String sql = "SELECT * FROM INSTRUCTOR";
+			String sql = "SELECT * FROM INSTRUCTOR WHERE EMAIL=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, email);
 			result = ps.executeQuery();
@@ -203,6 +197,7 @@ public class MainEntryClass {
 				instructor.setEmail(result.getString(3));
 				instructor.setSpeciality(result.getString(4));
 				instructor.setAdmin_role(result.getInt(5));
+				instructor.setPass(result.getString(6));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -220,6 +215,8 @@ public class MainEntryClass {
 		System.out.println("This is suppose to print out instructor object");
 		return instructor;
 	}
+	
+	
 		
 	}
 
