@@ -3,6 +3,8 @@ package CoreJava.systemsInterfaces;
 import java.util.List;
 
 import CoreJava.Models.Attending;
+import CoreJava.Models.Course;
+import CoreJava.Models.Student;
 
 public interface AttendingDAOI {
 

@@ -102,8 +102,7 @@ public class MainEntryClass {
 		System.out.println(student);
 		return student;
 	}
-	
-	
+
 //TESTING IF PASSWORD RETURNS BOOL! WORKS!!!!
 	public static Boolean vvalidateUser(String passToValidate, String comparablePas) throws SQLException {
 
@@ -117,9 +116,9 @@ public class MainEntryClass {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, passToValidate);
 			result = ps.executeQuery();
-			
+
 			if (passToValidate.equals(comparablePas)) {
-				System.out.println( passToValidate + " matches!!! "+ comparablePas);
+				System.out.println(passToValidate + " matches!!! " + comparablePas);
 				return true;
 			}
 		} catch (Exception e) {
@@ -139,25 +138,42 @@ public class MainEntryClass {
 		return false;
 	}
 
-	//TESTING IF GET ALL INSTRUCTORS WORK
-	private static void vgetAllInstructors() {
+	// TESTING IF GET ALL INSTRUCTORS WORK
+	private static Instructor vgetAllInstructors() throws SQLException {
 		List<Instructor> arr = new ArrayList<>();
-		Instructor instructor  = null;
+		Instructor instructor = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet result = null;
-		
+
 		try {
 			conn = OracleConnection.getConnection();
 			String sql = "SELECT * FROM INSTRUCTOR";
 			ps = conn.prepareStatement(sql);
+			result = ps.executeQuery();
 			while (result.next()) {
-				
+				instructor = new Instructor();
+				instructor.setInstructor_id(result.getInt(1));
+				instructor.setFull_name(result.getString(2));
+				instructor.setEmail(result.getString(3));
+				instructor.setSpeciality(result.getString(4));
+				instructor.setAdmin_role(result.getInt(5));
+				arr.add(instructor);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
 			}
 		}
-		
-		
+		System.out.println("this is suppose to return all instructors");
+		return instructor;
 	}
-
-	
 }
