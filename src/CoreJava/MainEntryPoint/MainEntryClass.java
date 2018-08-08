@@ -56,6 +56,7 @@ public class MainEntryClass {
 
 //		vgetStudentByGmail("b@gmail.com");
 //		vvalidateUser("111", "111");
+		vgetAllInstructors();
 
 	}
 
@@ -107,13 +108,13 @@ public class MainEntryClass {
 	public static Boolean vvalidateUser(String passToValidate, String comparablePas) throws SQLException {
 
 		Connection conn = null;
-		PreparedStatement stmt = null;
+		PreparedStatement ps = null;
 		ResultSet result = null;
 
 		try {
 			conn = OracleConnection.getConnection();
 			String sql = "SELECT * FROM STUDENT WHERE PASS=?";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			ps = conn.prepareStatement(sql);
 			ps.setString(1, passToValidate);
 			result = ps.executeQuery();
 			
@@ -137,7 +138,26 @@ public class MainEntryClass {
 		System.out.println("false!!");
 		return false;
 	}
-	
-	
+
+	//TESTING IF GET ALL INSTRUCTORS WORK
+	private static void vgetAllInstructors() {
+		List<Instructor> arr = new ArrayList<>();
+		Instructor instructor  = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+		
+		try {
+			conn = OracleConnection.getConnection();
+			String sql = "SELECT * FROM INSTRUCTOR";
+			ps = conn.prepareStatement(sql);
+			while (result.next()) {
+				
+			}
+		}
+		
+		
+	}
+
 	
 }
