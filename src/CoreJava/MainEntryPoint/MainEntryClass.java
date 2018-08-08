@@ -27,7 +27,7 @@ public class MainEntryClass {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
 
-		// TESTING QUERY FROM STUDENTS (ID) WORKS!
+	// TESTING QUERY FROM STUDENTS (ID) WORKS!
 		System.out.println("testing console");
 
 		// TESTING CONNECTION
@@ -54,10 +54,10 @@ public class MainEntryClass {
 			System.out.println(results.getString(1));
 		}
 
-		vgetStudentByGmail("b@gmail.com");
+//		vgetStudentByGmail("b@gmail.com");
 
 	}
-
+// TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
 	public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
 
 		Student student = null;
@@ -99,4 +99,7 @@ public class MainEntryClass {
 		System.out.println(student);
 		return student;
 	}
+	
+	
+	
 }
