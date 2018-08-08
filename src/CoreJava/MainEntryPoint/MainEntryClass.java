@@ -29,13 +29,17 @@ public class MainEntryClass {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
 		
+		
+		
+		
+	//TESTING QUERY FROM STUDENTS (ID) WORKS!	
 		System.out.println("testing console");
 		
-		//TESTING CONNECTION
+			//TESTING CONNECTION
 		
 		Connection conn = OracleConnection.getConnection();
 		
-		String sql = "SELECT * FROM STUDENT";
+		String sql = "SELECT FULL_NAME FROM STUDENT";
 		
 		PreparedStatement ps = conn.prepareStatement(sql);
 		
@@ -45,8 +49,13 @@ public class MainEntryClass {
 		ResultSet results = ps.executeQuery();
 		
 		while (results.next()) {
-			System.out.println(results.getString(1));
+			System.out.println(results.getString(1)); // 1 is the first column, change number for next column
 		}
+		
+		
+		
+		
+		
 		
 	}
 
