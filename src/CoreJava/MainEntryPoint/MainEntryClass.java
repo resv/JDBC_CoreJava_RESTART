@@ -23,40 +23,80 @@ import CoreJava.Models.Instructor;
 import CoreJava.Models.Student;
 import CoreJava.Models.Teaching;
 
-
-
 public class MainEntryClass {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
-		
-		
-		
-		
-	//TESTING QUERY FROM STUDENTS (ID) WORKS!	
+
+		// TESTING QUERY FROM STUDENTS (ID) WORKS!
 		System.out.println("testing console");
-		
-			//TESTING CONNECTION
-		
+
+		// TESTING CONNECTION
+
 		Connection conn = OracleConnection.getConnection();
-		
-		String sql = "SELECT FULL_NAME FROM STUDENT";
-		
+
+		String sql = "SELECT * FROM STUDENT";
+
 		PreparedStatement ps = conn.prepareStatement(sql);
-		
-		
+
 //		ps.setInt(1, id);
-		
+
 		ResultSet results = ps.executeQuery();
-		
+
+		// 1 is the first column, change number for next column, this is because we
+		// queried for *
+		// GETTING RESULTS SETS ARE PERTAINING TO VIEWS, if views have more than one
+		// column then
+		// changing the 1 to another number will get that respective column
+		// if we change * to a specific column name we will get that returned, and the
+		// value 1 becomes
+		// views
 		while (results.next()) {
-			System.out.println(results.getString(1)); // 1 is the first column, change number for next column
+			System.out.println(results.getString(1));
 		}
-		
-		
-		
-		
-		
-		
+
+		vgetStudentByGmail("b@gmail.com");
+
 	}
 
+	public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
+
+		Student student = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		
+		try {
+			/*Connection*/ conn = OracleConnection.getConnection();
+			student = new Student();
+			String sql = "SELECT * FROM STUDENT WHERE email = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, email);
+			/*ResultSet*/ result = ps.executeQuery();
+
+			if (result.next()) {
+				student.setStudent_id(result.getInt(1));
+				student.setFull_name(result.getString(2));
+				student.setEmail(result.getString(3));
+				student.setGpa(result.getInt(4));
+				student.setPass(result.getString(5));
+				student.setStudent_role(result.getInt(6));
+			
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		System.out.println(student);
+		return student;
+	}
 }
