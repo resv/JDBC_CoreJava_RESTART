@@ -27,7 +27,7 @@ public class MainEntryClass {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
 
-	// TESTING QUERY FROM STUDENTS (ID) WORKS!
+		// TESTING QUERY FROM STUDENTS (ID) WORKS!
 		System.out.println("testing console");
 
 		// TESTING CONNECTION
@@ -55,8 +55,10 @@ public class MainEntryClass {
 		}
 
 //		vgetStudentByGmail("b@gmail.com");
+//		vvalidateUser("111", "111");
 
 	}
+
 // TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
 	public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
 
@@ -64,14 +66,14 @@ public class MainEntryClass {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		
+
 		try {
-			/*Connection*/ conn = OracleConnection.getConnection();
+			/* Connection */ conn = OracleConnection.getConnection();
 			student = new Student();
 			String sql = "SELECT * FROM STUDENT WHERE email = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, email);
-			/*ResultSet*/ result = ps.executeQuery();
+			/* ResultSet */ result = ps.executeQuery();
 
 			if (result.next()) {
 				student.setStudent_id(result.getInt(1));
@@ -80,9 +82,9 @@ public class MainEntryClass {
 				student.setGpa(result.getInt(4));
 				student.setPass(result.getString(5));
 				student.setStudent_role(result.getInt(6));
-			
+
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -98,6 +100,42 @@ public class MainEntryClass {
 		}
 		System.out.println(student);
 		return student;
+	}
+	
+	
+//TESTING IF PASSWORD RETURNS BOOL! WORKS!!!!
+	public static Boolean vvalidateUser(String passToValidate, String comparablePas) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+
+		try {
+			conn = OracleConnection.getConnection();
+			String sql = "SELECT * FROM STUDENT WHERE PASS=?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, passToValidate);
+			result = ps.executeQuery();
+			
+			if (passToValidate.equals(comparablePas)) {
+				System.out.println( passToValidate + " matches!!! "+ comparablePas);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		System.out.println("false!!");
+		return false;
 	}
 	
 	
