@@ -60,10 +60,11 @@ public class MainEntryClass {
 		//vgetStudentByGmail("b@gmail.com"); // tested and works with other student emails
 		//vvalidateUser("111", "111"); //false also works by changing the 2nd parameter to not match
 		//vgetAllInstructors(); //returns list array with all instructor objects
+		vgetInstructoByGmail("lance@gmail.com");
 
 	}
 
-// TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
+//TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
 	public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
 
 		Student student = null;
@@ -141,7 +142,7 @@ public class MainEntryClass {
 		return false;
 	}
 
-// TESTING IF GET ALL INSTRUCTORS! DEBUGGED AND WORKS!!!
+//TESTING IF GET ALL INSTRUCTORS! DEBUGGED AND WORKS!!!
 	private static List<Instructor> vgetAllInstructors() throws SQLException {
 		List<Instructor> arr = new ArrayList<>();
 		Instructor instructor = null;
@@ -180,4 +181,46 @@ public class MainEntryClass {
 		System.out.println(arr);
 		return arr;
 	}
-}
+
+//TESTING IF EMAIL PARAM RETURNS INSTRUCTOR OBJECT
+	private static Instructor vgetInstructoByGmail(String email) throws SQLException {
+		Connection conn = null;
+		Instructor instructor = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+
+		try {
+			conn = OracleConnection.getConnection();
+			instructor = new Instructor();
+			String sql = "SELECT * FROM INSTRUCTOR";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, email);
+			result = ps.executeQuery();
+			
+			if (result.next()) {
+				instructor.setInstructor_id(result.getInt(1));
+				instructor.setFull_name(result.getString(2));
+				instructor.setEmail(result.getString(3));
+				instructor.setSpeciality(result.getString(4));
+				instructor.setAdmin_role(result.getInt(5));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		System.out.println("This is suppose to print out instructor object");
+		return instructor;
+	}
+		
+	}
+
+
