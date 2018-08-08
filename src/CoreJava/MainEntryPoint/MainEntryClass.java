@@ -54,9 +54,12 @@ public class MainEntryClass {
 			System.out.println(results.getString(1));
 		}
 
-//		vgetStudentByGmail("b@gmail.com");
-//		vvalidateUser("111", "111");
-//		vgetAllInstructors();
+/*UNCOMMENT METHODS BELOW TO TEST EACH METHOD, METHOD WILL RETURN MEMORY ADDRESS, YOU MUST RUN DEBUGGER AND 
+  CONFIRM THAT THE VALUES ARE CORRECT IN EACH OBJECT/LIST BEING RETURNED*/
+		
+		//vgetStudentByGmail("b@gmail.com"); // tested and works with other student emails
+		//vvalidateUser("111", "111"); //false also works by changing the 2nd parameter to not match
+		//vgetAllInstructors(); //returns list array with all instructor objects
 
 	}
 
