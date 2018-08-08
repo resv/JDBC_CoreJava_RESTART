@@ -1,10 +1,11 @@
 package CoreJava.DAO;
 
 import CoreJava.Models.Student;
+import CoreJava.systemsInterfaces.StudentDAOI;
 
 public class StudentDAO implements StudentDAOI{
 
-	Student getStudentByGmail(String email) {
+	public Student getStudentByGmail(String email) {
 		
 		/*This method takes a String as a parameter and 
 		queries the database for an Student with such 

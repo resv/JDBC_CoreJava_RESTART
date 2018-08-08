@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class OracleConnection {
-	public Connection getConnection() throws ClassNotFoundException, IOException, SQLException {
+	public static Connection getConnection() throws ClassNotFoundException, IOException, SQLException {
 		final Properties prop = new Properties();
 		final InputStream inputStream = 
 			OracleConnection.class.getClassLoader().getResourceAsStream("CoreJava/Resources/db.properties");
