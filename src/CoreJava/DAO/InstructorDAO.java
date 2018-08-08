@@ -98,6 +98,8 @@ public class InstructorDAO {
 	 * or “Instructor”.*/
 	String validateUser(Instructor ins, String comparablePas) {
 
+		
+		
 	}
 
 }

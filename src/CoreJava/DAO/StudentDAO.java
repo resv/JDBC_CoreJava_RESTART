@@ -1,5 +1,6 @@
 package CoreJava.DAO;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,45 +17,45 @@ public class StudentDAO implements StudentDAOI {
 	
 	public Student getStudentByGmail(String email) throws SQLException {
 
-		Student student = null;
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet result = null;
+		public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
 
-		try {
-			/* Connection */ conn = OracleConnection.getConnection();
-			student = new Student();
-			String sql = "SELECT * FROM STUDENT WHERE email = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, email);
-			/* ResultSet */ result = ps.executeQuery();
+			Student student = null;
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet result = null;
 
-			if (result.next()) {
-				student.setStudent_id(result.getInt(1));
-				student.setFull_name(result.getString(2));
-				student.setEmail(result.getString(3));
-				student.setGpa(result.getInt(4));
-				student.setPass(result.getString(5));
-				student.setStudent_role(result.getInt(6));
+			try {
+				/* Connection */ conn = OracleConnection.getConnection();
+				student = new Student();
+				String sql = "SELECT * FROM STUDENT WHERE email = ?";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, email);
+				/* ResultSet */ result = ps.executeQuery();
 
-			}
+				if (result.next()) {
+					student.setStudent_id(result.getInt(1));
+					student.setFull_name(result.getString(2));
+					student.setEmail(result.getString(3));
+					student.setGpa(result.getInt(4));
+					student.setPass(result.getString(5));
+					student.setStudent_role(result.getInt(6));
+				}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (result != null) {
-				result.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (result != null) {
+					result.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
 			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (conn != null) {
-				conn.close();
-			}
+			return student;
 		}
-		System.out.println(student);
-		return student;
-	}
 	
 	/*
 	 * This method takes two parameters: the first one is the password from the
