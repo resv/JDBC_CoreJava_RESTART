@@ -56,7 +56,7 @@ public class MainEntryClass {
 
 //		vgetStudentByGmail("b@gmail.com");
 //		vvalidateUser("111", "111");
-		vgetAllInstructors();
+//		vgetAllInstructors();
 
 	}
 
@@ -103,7 +103,7 @@ public class MainEntryClass {
 		return student;
 	}
 
-//TESTING IF PASSWORD RETURNS BOOL! WORKS!!!!
+//TESTING IF PASSWORD RETURNS BOOL! DEBUGGED AND WORKS!!!!
 	public static Boolean vvalidateUser(String passToValidate, String comparablePas) throws SQLException {
 
 		Connection conn = null;
@@ -138,8 +138,8 @@ public class MainEntryClass {
 		return false;
 	}
 
-	// TESTING IF GET ALL INSTRUCTORS WORK
-	private static Instructor vgetAllInstructors() throws SQLException {
+// TESTING IF GET ALL INSTRUCTORS! DEBUGGED AND WORKS!!!
+	private static List<Instructor> vgetAllInstructors() throws SQLException {
 		List<Instructor> arr = new ArrayList<>();
 		Instructor instructor = null;
 		Connection conn = null;
@@ -174,6 +174,7 @@ public class MainEntryClass {
 			}
 		}
 		System.out.println("this is suppose to return all instructors");
-		return instructor;
+		System.out.println(arr);
+		return arr;
 	}
 }
