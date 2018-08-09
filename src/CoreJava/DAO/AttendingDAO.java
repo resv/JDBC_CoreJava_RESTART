@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import CoreJava.CustomExceptions.StudentRegistrationException;
 import CoreJava.Models.Attending;
+import CoreJava.Models.Course;
+import CoreJava.Models.Student;
 import CoreJava.systemsInterfaces.AttendingDAOI;
 
 public class AttendingDAO implements AttendingDAOI{
@@ -56,4 +59,49 @@ the courses a student is register base on the Id*/
 		return attendingCourse;
 	}
 	
+	
+	/*registerStudentToCourse – This method takes as a parameter a Student and a Course object. 
+	If the student’s GPA id greater or equal to the minimum GPA of the course then the student 
+	is allow to register to the course. If not, then throw the StudentRegistrationException with 
+	a custom massage such as “\nDid not meet the minimum GPA requirement\nRegistration Denied”. 
+	Since you are creating a new record in the database, return the primary key auto-generated 
+	by the database.*/
+	private static int registerStudentToCourse(Student student, Course course) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+		int key = 0;
+		try {
+			if (student.getGpa() < course.getMinimum_gpa()) {
+				throw new StudentRegistrationException(
+						"Did not meet the minimum GPA requirements, Registration DENIED");
+			} else {
+				conn = OracleConnection.getConnection();
+				String sql = "INSERT INTO ATTENDING(COURSE_ID,STUDENT_ID) VALUES(?,?)";
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, student.getStudent_id());
+				ps.setInt(2, course.getCourse_id());
+				
+				ps.executeUpdate();
+				
+				result = ps.getGeneratedKeys();
+				if( result.next()) {
+					key = result.getInt(1);
+				}	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return key;
+	}
 }

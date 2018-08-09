@@ -70,16 +70,19 @@ public class MainEntryClass {
 //		vgetValidateUser(ins , "555"); NOT SURE HOW TO TEST THIS BECAUSE I DON'T know how to fit instructor object in param
 //		vgetAllCourses();
 //		vgetCourseByInstructor(3);
-		
-		
+
 //		vgetStudentCourse(3);// returns attending constructor which was joined from attending,student, and course in sql
-		
+
 //		vgetInstructorsCourses();
-		
-	}		
-	/*getStudentCourse – This method takes as a parameter a 
-	int student_id and would query the database for all 
-	the courses a student is register base on the Id*/
+//		vregisterStudentToCourse(Student student, Course course); // can't test in debugger because I cannot manually insert object
+
+	}
+
+	/*
+	 * getStudentCourse – This method takes as a parameter a int student_id and
+	 * would query the database for all the courses a student is register base on
+	 * the Id
+	 */
 //TESTING FOR ATTENDING CONSTRUCTOR, QUERY FROM SQL JOINED ATTENDING/COURSE/STUDENT	
 	private static List<Attending> vgetStudentCourse(int i) throws SQLException {
 		List<Attending> attendingCourse = new ArrayList<Attending>();
@@ -87,27 +90,25 @@ public class MainEntryClass {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet result = null;
-		
+
 		try {
 			conn = OracleConnection.getConnection();
-			String sql = "SELECT c.COURSE_NAME, s.FULL_NAME , s.EMAIL\r\n" + 
-						"FROM COURSE c\r\n" + 
-						"JOIN ATTENDING a ON a.COURSE_ID=c.COURSE_ID\r\n" + 
-						"JOIN STUDENT s ON s.STUDENT_ID=a.STUDENT_ID\r\n" + 
-						"WHERE s.STUDENT_ID =?";
+			String sql = "SELECT c.COURSE_NAME, s.FULL_NAME , s.EMAIL\r\n" + "FROM COURSE c\r\n"
+					+ "JOIN ATTENDING a ON a.COURSE_ID=c.COURSE_ID\r\n"
+					+ "JOIN STUDENT s ON s.STUDENT_ID=a.STUDENT_ID\r\n" + "WHERE s.STUDENT_ID =?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, i);
 			result = ps.executeQuery();
 			while (result.next()) {
-				 attending = new Attending();
-				 attending.setCourse_name(result.getString(1));
-				 attending.setFull_name(result.getString(2));
-				 attending.setEmail(result.getString(3));
-				 attendingCourse.add(attending);
+				attending = new Attending();
+				attending.setCourse_name(result.getString(1));
+				attending.setFull_name(result.getString(2));
+				attending.setEmail(result.getString(3));
+				attendingCourse.add(attending);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			if (result != null) {
 				result.close();
 			}
@@ -369,24 +370,21 @@ public class MainEntryClass {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet result = null;
-		
+
 		try {
 			conn = OracleConnection.getConnection();
-			String sql = "SELECT c.COURSE_NAME " +
-						  "FROM COURSE c " +
-						  "JOIN TEACHING t ON c.COURSE_ID=t.COURSE_ID " +
-						  "JOIN INSTRUCTOR i ON i.INSTRUCTOR_ID=t.INSTRUCTOR_ID " +
-						  "WHERE i.INSTRUCTOR_ID =?";
+			String sql = "SELECT c.COURSE_NAME " + "FROM COURSE c " + "JOIN TEACHING t ON c.COURSE_ID=t.COURSE_ID "
+					+ "JOIN INSTRUCTOR i ON i.INSTRUCTOR_ID=t.INSTRUCTOR_ID " + "WHERE i.INSTRUCTOR_ID =?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, i);
 			result = ps.executeQuery();
-			
+
 			while (result.next()) {
 				course = new Course();
 				course.setCourse_name(result.getString(1));
 				courses.add(course);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (result != null) {
@@ -401,26 +399,25 @@ public class MainEntryClass {
 		}
 		System.out.println(courses);
 		return courses;
-	}	
+	}
 
 // TESTING QUERY FOR TEACHING CONSTRUCTOR! DEBUGGED AND WORKS!
 	private static List<Teaching> vgetInstructorsCourses() throws SQLException {
 
-			List<Teaching> teachingList = new ArrayList<Teaching>();
-			Teaching teaching = null;
-			Connection conn = null;
-			PreparedStatement ps = null;
-			ResultSet result = null;
-			
-			try {
+		List<Teaching> teachingList = new ArrayList<Teaching>();
+		Teaching teaching = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+
+		try {
 			conn = OracleConnection.getConnection();
-			String sql ="SELECT c.COURSE_NAME, c.MINIMUN_GPA, i.FULL_NAME , i.EMAIL\r\n" + 
-						"FROM COURSE c\r\n" + 
-						"JOIN TEACHING t ON c.COURSE_ID=t.COURSE_ID\r\n" + 
-						"JOIN INSTRUCTOR i ON i.INSTRUCTOR_ID=t.INSTRUCTOR_ID";
+			String sql = "SELECT c.COURSE_NAME, c.MINIMUN_GPA, i.FULL_NAME , i.EMAIL\r\n" + "FROM COURSE c\r\n"
+					+ "JOIN TEACHING t ON c.COURSE_ID=t.COURSE_ID\r\n"
+					+ "JOIN INSTRUCTOR i ON i.INSTRUCTOR_ID=t.INSTRUCTOR_ID";
 			ps = conn.prepareStatement(sql);
 			result = ps.executeQuery();
-			
+
 			while (result.next()) {
 				teaching = new Teaching();
 				teaching.setCourse_name(result.getString(1));
@@ -429,24 +426,66 @@ public class MainEntryClass {
 				teaching.setEmail(result.getString(4));
 				teachingList.add(teaching);
 			}
-			}catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (result != null) {
-					result.close();
-				}
-				if (ps != null) {
-					ps.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
 			}
-			System.out.println("returned teachingList, check debugger");
-			return teachingList;
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
 		}
+		System.out.println("returned teachingList, check debugger");
+		return teachingList;
+	}
 
+//TESTING FOR STUDENT REGISTRATION FOR A COURSE
+	private static int vregisterStudentToCourse(Student student, Course course) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+		int key = 0;
+		try {
+			if (student.getGpa() < course.getMinimum_gpa()) {
+				throw new StudentRegistrationException(
+						"Did not meet the minimum GPA requirements, Registration DENIED");
+			} else {
+				conn = OracleConnection.getConnection();
+				String sql = "INSERT INTO ATTENDING(COURSE_ID,STUDENT_ID) VALUES(?,?)";
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, student.getStudent_id());
+				ps.setInt(2, course.getCourse_id());
+				
+				ps.executeUpdate();
+				
+				result = ps.getGeneratedKeys();
+				if( result.next()) {
+					key = result.getInt(1);
+				}
+				
+			}
 
-
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return key;
+	}
+	
+	
+	
+	
 }// main end
