@@ -75,7 +75,7 @@ public class MainEntryClass {
 
 //		vgetInstructorsCourses();
 //		vregisterStudentToCourse(Student student, Course course); // can't test in debugger because I cannot manually insert object
-
+//		vassignInstructorToCourse(3, 3); returns key, assignes instrucID and courseID to teaching. can't test
 	}
 
 	/*
@@ -282,7 +282,7 @@ public class MainEntryClass {
 	}
 
 //TESTING, GRABS OBJECT INSTRUCTOR AND PASS THEN RETURNS admin/instructor/wrong CANNOT TEST ATM	
-	String vgetValidateUser(Instructor ins, String comparablePas) throws SQLException {
+	String vvalidateUser(Instructor ins, String comparablePas) throws SQLException {
 		Connection conn = null;
 		Instructor instructor = null;
 		PreparedStatement ps = null;
@@ -443,7 +443,7 @@ public class MainEntryClass {
 		return teachingList;
 	}
 
-//TESTING FOR STUDENT REGISTRATION FOR A COURSE
+//TESTING FOR STUDENT REGISTRATION FOR A COURSE CAN'T TEST due to object insertion
 	private static int vregisterStudentToCourse(Student student, Course course) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -459,14 +459,14 @@ public class MainEntryClass {
 				ps = conn.prepareStatement(sql);
 				ps.setInt(1, student.getStudent_id());
 				ps.setInt(2, course.getCourse_id());
-				
+
 				ps.executeUpdate();
-				
+
 				result = ps.getGeneratedKeys();
-				if( result.next()) {
+				if (result.next()) {
 					key = result.getInt(1);
 				}
-				
+
 			}
 
 		} catch (Exception e) {
@@ -484,8 +484,41 @@ public class MainEntryClass {
 		}
 		return key;
 	}
-	
-	
-	
-	
+//TESTING TO INSERT INSTRUCTOR AND A COURSE INTO ATTENDING // CAN'T TEST due to object insertion
+	private static int vassignInstructorToCourse(int i, int j) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+		int key = 0;
+
+		try {
+			conn = OracleConnection.getConnection();
+			String sql = "INSERT INTO TEACHING(COURSE_ID,INSTRUCTOR_ID) VALUES(?,?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, i);
+			ps.setInt(2, j);
+
+			ps.executeUpdate();
+
+			result = ps.getGeneratedKeys();
+			if (result.next()) {
+				key = result.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return key;
+	}
+
 }// main end
