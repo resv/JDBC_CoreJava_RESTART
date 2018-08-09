@@ -11,6 +11,8 @@ import CoreJava.Models.Course;
 
 public class CourseDAO {
 
+	/*getAllCourses – This method takes no parameter and 
+	returns every Course in the database.*/
 	private static List<Course> getAllCourses() throws SQLException {
 		List<Course> courses = new ArrayList<Course>();
 		Course course = null;
@@ -46,6 +48,9 @@ public class CourseDAO {
 		return courses;
 	}	
 	
+	
+	/*getCourseByInstructor – This method takes an int as a parameter and 
+	queries the database for all the courses one instructor is assigned to.*/
 	private static List<Course> getCourseByInstructor(int i) throws SQLException {
 		List<Course> courses = new ArrayList<Course>();
 		Course course = null;

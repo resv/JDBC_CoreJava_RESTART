@@ -67,7 +67,7 @@ public class InstructorDAO {
 			ps.setString(1, email);
 			result = ps.executeQuery();
 
-			if (result.next()) {
+			while (result.next()) {
 				instructor.setInstructor_id(result.getInt(1));
 				instructor.setFull_name(result.getString(2));
 				instructor.setEmail(result.getString(3));

@@ -14,11 +14,9 @@ public class StudentDAO implements StudentDAOI {
 	/*getStudentByGmail – This method takes a String as a parameter and 
 	queries the database for an Student with such an email and returns a 
 	Student Object.*/
-	
 	public Student getStudentByGmail(String email) throws SQLException {
 
 		public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
-
 			Student student = null;
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -40,7 +38,6 @@ public class StudentDAO implements StudentDAOI {
 					student.setPass(result.getString(5));
 					student.setStudent_role(result.getInt(6));
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -57,14 +54,11 @@ public class StudentDAO implements StudentDAOI {
 			return student;
 		}
 	
-	/*
-	 * This method takes two parameters: the first one is the password from the
-	 * database and the second one is the password from the user input. If both
-	 * passwords are the same return true otherwise return false.
-	 */
 	
+	/*This method takes two parameters: the first one is the password from the
+	 * database and the second one is the password from the user input. If both
+	 * passwords are the same return true otherwise return false.*/
 	Boolean validateUser(String passToValidate, String comparablePas) throws SQLException {
-
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet result = null;
@@ -95,5 +89,4 @@ public class StudentDAO implements StudentDAOI {
 		}
 		return false;
 	}
-
 }
