@@ -14,7 +14,7 @@ public class CourseDAO implements CourseDAOI{
 
 	/*getAllCourses – This method takes no parameter and 
 	returns every Course in the database.*/
-	public static List<Course> getAllCourses() throws SQLException {
+	public List<Course> getAllCourses() throws SQLException {
 		List<Course> courses = new ArrayList<Course>();
 		Course course = null;
 		Connection conn = null;
@@ -52,7 +52,7 @@ public class CourseDAO implements CourseDAOI{
 	
 	/*getCourseByInstructor – This method takes an int as a parameter and 
 	queries the database for all the courses one instructor is assigned to.*/
-	public static List<Course> getCourseByInstructor(int i) throws SQLException {
+	public List<Course> getCourseByInstructor(int i) throws SQLException {
 		List<Course> courses = new ArrayList<Course>();
 		Course course = null;
 		Connection conn = null;

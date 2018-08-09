@@ -16,7 +16,7 @@ public class InstructorDAO implements InstructorDAOI {
 	 * getAllInstructors – This method takes no parameter and returns every
 	 * Instructor in the database.
 	 */
-	List<Instructor> getAllInstructors() throws SQLException {
+	public List<Instructor> getAllInstructors() throws SQLException {
 		List<Instructor> arr = new ArrayList<>();
 		Instructor instructor = null;
 		Connection conn = null;

@@ -15,7 +15,7 @@ public class TeachingDAO implements TeachingDAOI{
 	/*assignInstructorToCourse – This method takes as a parameter a course_id and a 
 	instructor_id int and perform an INSERT query into the TEACHING table to assign
 	an instructor to a course*/
-	public static int assignInstructorToCourse(int i, int j) throws SQLException {
+	public int assignInstructorToCourse(int i, int j) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet result = null;
@@ -54,7 +54,7 @@ public class TeachingDAO implements TeachingDAOI{
 	/*getIntructorsCourses – This method takes no parameters 
 	and queries the database for every instructor assigned 
 	to a course.*/
-	private static List<Teaching> getInstructorsCourses() throws SQLException {
+	public List<Teaching> getInstructorsCourses() throws SQLException {
 
 		List<Teaching> teachingList = new ArrayList<Teaching>();
 		Teaching teaching = null;
@@ -92,7 +92,12 @@ public class TeachingDAO implements TeachingDAOI{
 				conn.close();
 			}
 		}
-		System.out.println(teachingList);
 		return teachingList;
+	}
+
+	@Override
+	public int registerStudentToCourse(int course_id, int instructor_id) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

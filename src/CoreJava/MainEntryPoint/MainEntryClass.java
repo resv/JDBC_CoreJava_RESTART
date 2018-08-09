@@ -28,7 +28,7 @@ public class MainEntryClass
 //    ================================================================================================================================
 //    =====================================================     Seperator      =======================================================
 //    ================================================================================================================================
-    public void allIntructors() throws ClassNotFoundException, IOException {
+    public void allIntructors() throws ClassNotFoundException, IOException, SQLException {
         InstructorDAO insDAO = new InstructorDAO();
         
         List<Instructor> allIns = insDAO.getAllInstructors();
@@ -41,7 +41,7 @@ public class MainEntryClass
         
     }
     
-    public void allCourse() throws ClassNotFoundException, IOException {
+    public void allCourse() throws ClassNotFoundException, IOException, SQLException {
         CourseDAO coDAO = new CourseDAO();
         
         List<Course> allCo = coDAO.getAllCourses();
@@ -49,17 +49,17 @@ public class MainEntryClass
         System.out.printf("%-3s COURSE NAME \t MINIMUN GPA\n", "ID");
         
         for(Course coAGN : allCo) {
-            System.out.printf("%-3s %-20s %s\n",coAGN.getCourse_id(),  coAGN.getCourse_name(), coAGN.getMinimun_gpa());
+            System.out.printf("%-3s %-20s %s\n",coAGN.getCourse_id(),  coAGN.getCourse_name(), coAGN.getMinimum_gpa());
         }
         
     }
     
-    public void allCoursesWithInstructor() {
+    public void allCoursesWithInstructor() throws SQLException {
         TeachingDAO teaDAO = new TeachingDAO();
-        List<Teaching> teaList = teaDAO.getIntructorsCourses();
+        List<Teaching> teaList = teaDAO.getInstructorsCourses();
         System.out.printf("COURSE NAME \t COURSE MINIMUN GPA \t INTRUCTOR NAME \t INSTRUCTOR EMAIL\n\n");
         for(Teaching teaAGN : teaList) {
-            System.out.printf("%-16s %-23s %-23s %s\n", teaAGN.getCourse_name(), teaAGN.getMinimun_gpa(), 
+            System.out.printf("%-16s %-23s %-23s %s\n", teaAGN.getCourse_name(), teaAGN.getMinimum_gpa(), 
                     teaAGN.getFull_name(), teaAGN.getEmail());
         }
     }
@@ -80,7 +80,7 @@ public class MainEntryClass
         System.out.printf("\nAll Courses:\n");
         System.out.printf("%-3s COURSE NAME \t MINIMUN GPA\n", "ID");
         for(Course co : coList) {
-            System.out.printf("%-3s %-20s %s\n", counter, co.getCourse_name(), co.getMinimun_gpa());
+            System.out.printf("%-3s %-20s %s\n", counter, co.getCourse_name(), co.getMinimum_gpa());
             counter++;
         }
     }

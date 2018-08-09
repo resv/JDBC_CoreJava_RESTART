@@ -11,12 +11,10 @@ import CoreJava.systemsInterfaces.StudentDAOI;
 
 public class StudentDAO implements StudentDAOI {
 
-	/*getStudentByGmail – This method takes a String as a parameter and 
-	queries the database for an Student with such an email and returns a 
-	Student Object.*/
-	public Student getStudentByGmail(String email) throws SQLException {
-
-		public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
+	/*
+	 * getStudentByGmail – This method takes a String as a parameter and queries the
+	 * database for an Student with such an email and returns a Student Object.
+	 */		public Student getStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
 			Student student = null;
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -55,38 +53,39 @@ public class StudentDAO implements StudentDAOI {
 		}
 	
 	
-	/*This method takes two parameters: the first one is the password from the
-	 * database and the second one is the password from the user input. If both
-	 * passwords are the same return true otherwise return false.*/
-	public Boolean validateUser(String passToValidate, String comparablePas) throws SQLException {
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet result = null;
-
-		try {
-			conn = OracleConnection.getConnection();
-		
-			String sql = "SELECT * FROM STUDENT WHERE PASS=?";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, passToValidate);
-			result = ps.executeQuery();
-
-			if (passToValidate.equals(comparablePas)) {
-				return true;
+		/*This method takes two parameters: the first one is the password from the
+		 * database and the second one is the password from the user input. If both
+		 * passwords are the same return true otherwise return false.*/
+		public Boolean validateUser(String passToValidate, String comparablePas) throws SQLException {
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet result = null;
+	
+			try {
+				conn = OracleConnection.getConnection();
+			
+				String sql = "SELECT * FROM STUDENT WHERE PASS=?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, passToValidate);
+				result = ps.executeQuery();
+	
+				if (passToValidate.equals(comparablePas)) {
+					return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (result != null) {
+					result.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (result != null) {
-				result.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (conn != null) {
-				conn.close();
-			}
+			return false;
 		}
-		return false;
 	}
-}
+
