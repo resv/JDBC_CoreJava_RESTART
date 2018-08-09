@@ -10,10 +10,12 @@ import java.util.List;
 import CoreJava.Models.Instructor;
 import CoreJava.systemsInterfaces.InstructorDAOI;
 
-public class InstructorDAO implements InstructorDAOI{
+public class InstructorDAO implements InstructorDAOI {
 
-	/* getAllInstructors – This method takes no parameter and returns every
-	 * Instructor in the database.*/
+	/*
+	 * getAllInstructors – This method takes no parameter and returns every
+	 * Instructor in the database.
+	 */
 	List<Instructor> getAllInstructors() throws SQLException {
 		List<Instructor> arr = new ArrayList<>();
 		Instructor instructor = null;
@@ -51,9 +53,11 @@ public class InstructorDAO implements InstructorDAOI{
 		return arr;
 	}
 
-	/*getInstructoByGmail– This method takes a String as a parameter and queries
+	/*
+	 * getInstructoByGmail– This method takes a String as a parameter and queries
 	 * the database for an Instructor with such an email and returns an Instructor
-	 * Object.*/
+	 * Object.
+	 */
 	Instructor getInstructoByGmail(String email) throws SQLException {
 		Connection conn = null;
 		Instructor instructor = null;
@@ -92,15 +96,53 @@ public class InstructorDAO implements InstructorDAOI{
 		return instructor;
 	}
 
-	
-	/* validateUser – This method takes two arguments: an instructor object with all
+	/*
+	 * validateUser – This method takes two arguments: an instructor object with all
 	 * its information and a String which represent the password entered by the user
 	 * trying to login as an instructor. This returns “Wrong Credentials”, “Admin”
-	 * or “Instructor”.*/
-	String validateUser(Instructor ins, String comparablePas) {
+	 * or “Instructor”.
+	 */
+	String vvalidateUser(Instructor ins, String comparablePas) throws SQLException {
+//		Instructor instructor = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
 
-		
-		
+		String answer = "";
+
+		try {
+			conn = OracleConnection.getConnection();
+//			instructor = new Instructor();
+			String sql = "SELECT * FROM INSTRUCTOR WHERE PASS=?";
+			ps = conn.prepareStatement(sql);
+			String insPass = ins.getPass();
+			ps.setString(1, insPass);
+			result = ps.executeQuery();
+			
+			if (result.next()) {
+			if (insPass.equals(comparablePas) && ins.getAdmin_role() == 1) {
+				answer = "Admin";
+			} else if (insPass.equals(comparablePas) && ins.getAdmin_role() == 0) {
+				answer = "Instructor";
+			} else if (!insPass.equals(comparablePas)) {
+				answer = "Wrong Credentials";
+			}
+		}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return answer;
 	}
-
 }

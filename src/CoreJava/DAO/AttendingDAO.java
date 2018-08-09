@@ -16,9 +16,9 @@ import CoreJava.systemsInterfaces.AttendingDAOI;
 public class AttendingDAO implements AttendingDAOI{
 
 	
-/*getStudentCourse – This method takes as a parameter a 
-int student_id and would query the database for all 
-the courses a student is register base on the Id*/
+	/*getStudentCourse – This method takes as a parameter a 
+	int student_id and would query the database for all 
+	the courses a student is register base on the Id*/
 	private static List<Attending> getStudentCourse(int i) throws SQLException {
 		List<Attending> attendingCourse = new ArrayList<Attending>();
 		Attending attending = null;
@@ -59,7 +59,7 @@ the courses a student is register base on the Id*/
 		return attendingCourse;
 	}
 	
-	
+	 
 	/*registerStudentToCourse – This method takes as a parameter a Student and a Course object. 
 	If the student’s GPA id greater or equal to the minimum GPA of the course then the student 
 	is allow to register to the course. If not, then throw the StudentRegistrationException with 
