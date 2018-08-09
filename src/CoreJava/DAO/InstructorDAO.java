@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import CoreJava.Models.Instructor;
+import CoreJava.systemsInterfaces.InstructorDAOI;
 
-public class InstructorDAO {
+public class InstructorDAO implements InstructorDAOI{
 
 	/* getAllInstructors – This method takes no parameter and returns every
 	 * Instructor in the database.*/

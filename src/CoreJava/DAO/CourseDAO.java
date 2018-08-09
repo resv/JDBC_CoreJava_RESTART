@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import CoreJava.Models.Course;
+import CoreJava.systemsInterfaces.CourseDAOI;
 
-public class CourseDAO {
+public class CourseDAO implements CourseDAOI{
 
 	/*getAllCourses – This method takes no parameter and 
 	returns every Course in the database.*/

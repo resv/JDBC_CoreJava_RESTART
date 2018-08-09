@@ -17,6 +17,14 @@ import CoreJava.DAO.InstructorDAO;
 import CoreJava.DAO.OracleConnection;
 import CoreJava.DAO.StudentDAO;
 import CoreJava.DAO.TeachingDAO;
+import CoreJava.DAO.This;
+import CoreJava.DAO.a;
+import CoreJava.DAO.and;
+import CoreJava.DAO.courses;
+import CoreJava.DAO.query;
+import CoreJava.DAO.register;
+import CoreJava.DAO.student;
+import CoreJava.DAO.takes;
 import CoreJava.Models.Attending;
 import CoreJava.Models.Course;
 import CoreJava.Models.Instructor;
@@ -61,7 +69,57 @@ public class MainEntryClass {
 //		vgetInstructoByGmail("lance@gmail.com"); //returns instructor object based on email in param
 //		vgetValidateUser(ins , "555"); NOT SURE HOW TO TEST THIS BECAUSE I DON'T know how to fit instructor object in param
 //		vgetAllCourses();
-		vgetCourseByInstructor(3);
+//		vgetCourseByInstructor(3);
+		
+		
+//		vgetStudentCourse(3);// returns attending constructor which was joined from attending,student, and course in sql
+		
+//		vgetInstructorsCourses();
+		
+	}		
+	/*getStudentCourse – This method takes as a parameter a 
+	int student_id and would query the database for all 
+	the courses a student is register base on the Id*/
+//TESTING FOR ATTENDING CONSTRUCTOR, QUERY FROM SQL JOINED ATTENDING/COURSE/STUDENT	
+	private static List<Attending> vgetStudentCourse(int i) throws SQLException {
+		List<Attending> attendingCourse = new ArrayList<Attending>();
+		Attending attending = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+		
+		try {
+			conn = OracleConnection.getConnection();
+			String sql = "SELECT c.COURSE_NAME, s.FULL_NAME , s.EMAIL\r\n" + 
+						"FROM COURSE c\r\n" + 
+						"JOIN ATTENDING a ON a.COURSE_ID=c.COURSE_ID\r\n" + 
+						"JOIN STUDENT s ON s.STUDENT_ID=a.STUDENT_ID\r\n" + 
+						"WHERE s.STUDENT_ID =?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, i);
+			result = ps.executeQuery();
+			while (result.next()) {
+				 attending = new Attending();
+				 attending.setCourse_name(result.getString(1));
+				 attending.setFull_name(result.getString(2));
+				 attending.setEmail(result.getString(3));
+				 attendingCourse.add(attending);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		System.out.println(attendingCourse);
+		return attendingCourse;
 	}
 
 	// TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
@@ -304,7 +362,7 @@ public class MainEntryClass {
 		return courses;
 	}
 
-//TESTING QUERY COURSE BY INSTRUCTOR ID
+//TESTING QUERY COURSE BY INSTRUCTOR ID! DEBUGGED AND WORKS!!
 	private static List<Course> vgetCourseByInstructor(int i) throws SQLException {
 		List<Course> courses = new ArrayList<Course>();
 		Course course = null;
@@ -344,4 +402,51 @@ public class MainEntryClass {
 		System.out.println(courses);
 		return courses;
 	}	
+
+// TESTING QUERY FOR TEACHING CONSTRUCTOR! DEBUGGED AND WORKS!
+	private static List<Teaching> vgetInstructorsCourses() throws SQLException {
+
+			List<Teaching> teachingList = new ArrayList<Teaching>();
+			Teaching teaching = null;
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet result = null;
+			
+			try {
+			conn = OracleConnection.getConnection();
+			String sql ="SELECT c.COURSE_NAME, c.MINIMUN_GPA, i.FULL_NAME , i.EMAIL\r\n" + 
+						"FROM COURSE c\r\n" + 
+						"JOIN TEACHING t ON c.COURSE_ID=t.COURSE_ID\r\n" + 
+						"JOIN INSTRUCTOR i ON i.INSTRUCTOR_ID=t.INSTRUCTOR_ID";
+			ps = conn.prepareStatement(sql);
+			result = ps.executeQuery();
+			
+			while (result.next()) {
+				teaching = new Teaching();
+				teaching.setCourse_name(result.getString(1));
+				teaching.setMinimum_gpa(result.getDouble(2));
+				teaching.setFull_name(result.getString(3));
+				teaching.setEmail(result.getString(4));
+				teachingList.add(teaching);
+			}
+			}catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (result != null) {
+					result.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			}
+			System.out.println("returned teachingList, check debugger");
+			return teachingList;
+		}
+
+
+
+
 }// main end
