@@ -15,7 +15,7 @@ public class TeachingDAO implements TeachingDAOI{
 	/*assignInstructorToCourse – This method takes as a parameter a course_id and a 
 	instructor_id int and perform an INSERT query into the TEACHING table to assign
 	an instructor to a course*/
-	private static int assignInstructorToCourse(int i, int j) throws SQLException {
+	public static int assignInstructorToCourse(int i, int j) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet result = null;

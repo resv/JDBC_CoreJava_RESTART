@@ -58,7 +58,7 @@ public class InstructorDAO implements InstructorDAOI {
 	 * the database for an Instructor with such an email and returns an Instructor
 	 * Object.
 	 */
-	Instructor getInstructoByGmail(String email) throws SQLException {
+	public Instructor getInstructoByGmail(String email) throws SQLException {
 		Connection conn = null;
 		Instructor instructor = null;
 		PreparedStatement ps = null;
@@ -102,7 +102,7 @@ public class InstructorDAO implements InstructorDAOI {
 	 * trying to login as an instructor. This returns “Wrong Credentials”, “Admin”
 	 * or “Instructor”.
 	 */
-	String vvalidateUser(Instructor ins, String comparablePas) throws SQLException {
+	public String validateUser(Instructor ins, String comparablePas) throws SQLException {
 //		Instructor instructor = null;
 		Connection conn = null;
 		PreparedStatement ps = null;

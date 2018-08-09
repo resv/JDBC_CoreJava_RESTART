@@ -19,7 +19,7 @@ public class AttendingDAO implements AttendingDAOI{
 	/*getStudentCourse – This method takes as a parameter a 
 	int student_id and would query the database for all 
 	the courses a student is register base on the Id*/
-	private static List<Attending> getStudentCourse(int i) throws SQLException {
+	public static List<Attending> getStudentCourse(int i) throws SQLException {
 		List<Attending> attendingCourse = new ArrayList<Attending>();
 		Attending attending = null;
 		Connection conn = null;
@@ -66,7 +66,7 @@ public class AttendingDAO implements AttendingDAOI{
 	a custom massage such as “\nDid not meet the minimum GPA requirement\nRegistration Denied”. 
 	Since you are creating a new record in the database, return the primary key auto-generated 
 	by the database.*/
-	private static int registerStudentToCourse(Student student, Course course) throws SQLException {
+	public static int registerStudentToCourse(Student student, Course course) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet result = null;
