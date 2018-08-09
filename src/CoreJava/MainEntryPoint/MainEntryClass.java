@@ -61,9 +61,10 @@ public class MainEntryClass {
 //		vgetInstructoByGmail("lance@gmail.com"); //returns instructor object based on email in param
 //		vgetValidateUser(ins , "555"); NOT SURE HOW TO TEST THIS BECAUSE I DON'T know how to fit instructor object in param
 //		vgetAllCourses();
+		vgetCourseByInstructor(3);
 	}
 
-//TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
+	// TESTING QUERY FOR STUDENT BY EMAIL, DEBUGGED AND WORKS!
 	public static Student vgetStudentByGmail(String email) throws ClassNotFoundException, IOException, SQLException {
 
 		Student student = null;
@@ -221,7 +222,6 @@ public class MainEntryClass {
 		return instructor;
 	}
 
-
 //TESTING, GRABS OBJECT INSTRUCTOR AND PASS THEN RETURNS admin/instructor/wrong CANNOT TEST ATM	
 	String vgetValidateUser(Instructor ins, String comparablePas) throws SQLException {
 		Connection conn = null;
@@ -229,7 +229,7 @@ public class MainEntryClass {
 		PreparedStatement ps = null;
 		ResultSet result = null;
 
-		String answer ="";
+		String answer = "";
 
 		try {
 			conn = OracleConnection.getConnection();
@@ -264,7 +264,6 @@ public class MainEntryClass {
 		}
 		return answer;
 	}
-
 
 //TESTING QUERY TO GET ALL COURSES! DEBUGGED AND WORKS!!!
 	private static List<Course> vgetAllCourses() throws SQLException {
@@ -305,4 +304,44 @@ public class MainEntryClass {
 		return courses;
 	}
 
+//TESTING QUERY COURSE BY INSTRUCTOR ID
+	private static List<Course> vgetCourseByInstructor(int i) throws SQLException {
+		List<Course> courses = new ArrayList<Course>();
+		Course course = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet result = null;
+		
+		try {
+			conn = OracleConnection.getConnection();
+			String sql = "SELECT c.COURSE_NAME " +
+						  "FROM COURSE c " +
+						  "JOIN TEACHING t ON c.COURSE_ID=t.COURSE_ID " +
+						  "JOIN INSTRUCTOR i ON i.INSTRUCTOR_ID=t.INSTRUCTOR_ID " +
+						  "WHERE i.INSTRUCTOR_ID =?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, i);
+			result = ps.executeQuery();
+			
+			while (result.next()) {
+				course = new Course();
+				course.setCourse_name(result.getString(1));
+				courses.add(course);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		System.out.println(courses);
+		return courses;
+	}	
 }// main end
