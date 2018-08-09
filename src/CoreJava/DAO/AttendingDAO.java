@@ -77,7 +77,7 @@ public class AttendingDAO implements AttendingDAOI{
 						"Did not meet the minimum GPA requirements, Registration DENIED");
 			} else {
 				conn = OracleConnection.getConnection();
-				String sql = "INSERT INTO ATTENDING(COURSE_ID,STUDENT_ID) VALUES(?,?)";
+				String sql = "INSERT INTO ATTENDING(STUDENT_ID,COURSE_ID) VALUES(?,?)";
 				ps = conn.prepareStatement(sql);
 				ps.setInt(1, student.getStudent_id());
 				ps.setInt(2, course.getCourse_id());
@@ -87,7 +87,6 @@ public class AttendingDAO implements AttendingDAOI{
 				result = ps.getGeneratedKeys();
 				if( result.next()) {
 					key = result.getInt(1);
-					return key;
 				}	
 			}
 		} catch (Exception e) {
