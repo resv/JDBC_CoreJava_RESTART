@@ -594,7 +594,8 @@ public class MainEntryClass
         }
     }
     
-    public static void main(String[] args) throws ClassNotFoundException, IOException, StudentRegistrationException, SQLException {
+    @SuppressWarnings({ "resource", "unused" })
+	public static void main(String[] args) throws ClassNotFoundException, IOException, StudentRegistrationException, SQLException {
         boolean quit = false;
         Scanner reader = new Scanner(System.in);
         MainEntryClass mainObj = new MainEntryClass();

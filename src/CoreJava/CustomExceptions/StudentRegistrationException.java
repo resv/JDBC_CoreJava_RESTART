@@ -1,5 +1,6 @@
 package CoreJava.CustomExceptions;
 
+@SuppressWarnings("serial")
 public class StudentRegistrationException extends Exception{
 
 
